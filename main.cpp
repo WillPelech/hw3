@@ -114,7 +114,6 @@ void initialise() {
                      static_cast<float>(GetRandomValue(100, SCREEN_HEIGHT - 200))};
   Vector2 nestSize = {60.0f, 30.0f};
   Vector2 hawk_enemy_size = {80.0f, 50.0f};
-  // Use simpler constructor for non-animated entity
   nest_platform = new Entity(nestPos, nestSize, NEST_FP, PLATFORM);
   nest_platform->setPlatformSpeed(2.0f);
   Vector2 hawk_enemy_1_pos = {static_cast<float>(GetRandomValue(100, SCREEN_WIDTH - 100)),
@@ -234,37 +233,33 @@ void update() {
         Vector2 expandedNestScale = nestScale;
         Vector2 expandedEnemy1Scale = enemy1Scale;
         Vector2 expandedEnemy2Scale = enemy2Scale;
-        expandedNestScale.x *= 1.2f;  
-        expandedNestScale.y *= 1.2f; 
-        expandedEnemy1Scale.x *= 1.2f; 
-        expandedEnemy1Scale.y *= 1.2f;
-        expandedEnemy2Scale.x *= 1.2f;
-        expandedEnemy2Scale.y *= 1.2f;
+        expandedNestScale.x *= 1.1f;  
+        expandedNestScale.y *= 1.1f; 
+        expandedEnemy1Scale.x *= 1.1f; 
+        expandedEnemy1Scale.y *= 1.1f;
+        expandedEnemy2Scale.x *= 1.1f;
+        expandedEnemy2Scale.y *= 1.1f;
         
         if (isColliding(&pos, &birdScale, &nestPos, &expandedNestScale) &&
-            vel.y >= 0) {  // Moving downward or stopped
+            vel.y >= 0) {
           gameState = WON;
-          // Stop all movement when won
           bird_entity->setVelocity({0, 0});
           bird_entity->setAcceleration({0, 0});
         }
         if (isColliding(&pos, &birdScale, &enemy1Pos, &expandedEnemy1Scale)) {
           gameState = LOST;
-          // Stop all movement when lost
           bird_entity->setVelocity({0, 0});
           bird_entity->setAcceleration({0, 0});
         } 
         if (isColliding(&pos, &birdScale, &enemy2Pos, &expandedEnemy2Scale)) {
           gameState = LOST;
-          // Stop all movement when lost
           bird_entity->setVelocity({0, 0});
-          bird_entity->setAcceleration({0, 0});
-        }
-        // Check for game lost conditions (no fuel and below nest)
-        if (bird_entity->get_fuel_level() <= 0 && 
-            pos.y > nestPos.y + nestScale.y) {
-          gameState = LOST;
-        }
+          bird_entity->setAcceleration({0, 0});}
+        // }
+        // if (bird_entity->get_fuel_level() <= 0 && 
+        //     pos.y > nestPos.y + nestScale.y) {
+        //   gameState = LOST;
+        // }
       }
     }
   }
@@ -274,35 +269,29 @@ void render() {
   BeginDrawing();
   ClearBackground(RAYWHITE);
   
-  // Draw background
   DrawTexturePro(background,
                  (Rectangle){0, 0, (float)background.width, (float)background.height},
                  (Rectangle){0, 0, SCREEN_WIDTH, SCREEN_HEIGHT},
                  (Vector2){0, 0}, 0.0f, WHITE);
   
-  // Draw nest platform
   if (nest_platform)
     nest_platform->render();
   
-  // Draw hawk enemies
   if (hawk_enemy_1)
     hawk_enemy_1->render();
   if (hawk_enemy_2)
     hawk_enemy_2->render();
   
-  // Draw bird
   if (bird_entity)
     bird_entity->render();
 
-  // Draw fuel level in top right
   if (bird_entity) {
     char fuelText[32];
-    sprintf(fuelText, "Fuel: %d", bird_entity->get_fuel_level());
+    snprintf(fuelText, sizeof(fuelText), "Fuel: %d", bird_entity->get_fuel_level());
     int fuelTextWidth = MeasureText(fuelText, 20);
     DrawText(fuelText, SCREEN_WIDTH - fuelTextWidth - 10, 10, 20, BLACK);
   }
 
-  // Draw game state message
   const char* message = "";
   Color messageColor = WHITE;
   if (gameState == WON) {

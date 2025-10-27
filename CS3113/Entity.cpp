@@ -50,7 +50,6 @@ void Entity::checkCollisionY(Entity **collidableEntities, int collisionCheckCoun
 {
     for (int i = 0; i < collisionCheckCount; i++)
     {
-        //array containing entities that can be collided with 
         Entity *collidableEntity = collidableEntities[i];
         
         if (isColliding(collidableEntity))
@@ -92,7 +91,6 @@ void Entity::checkCollisionX(Entity **collidableEntities, int collisionCheckCoun
             float yDistance = fabs(mPosition.y - collidableEntity->mPosition.y);
             float yOverlap  = fabs(yDistance - (mColliderDimensions.y / 2.0f) - (collidableEntity->mColliderDimensions.y / 2.0f));
 
-            // Skip if barely touching vertically (standing on platform)
             if (yOverlap < Y_COLLISION_THRESHOLD) continue;
 
             float xDistance = fabs(mPosition.x - collidableEntity->mPosition.x);
@@ -156,7 +154,7 @@ void Entity::animate(float deltaTime)
     
     if (mAnimationTime >= framesPerSecond)
     {
-        mAnimationTime -= framesPerSecond;  // Reset but keep leftover time
+        mAnimationTime -= framesPerSecond;
         mCurrentFrameIndex++;
         mCurrentFrameIndex %= mAnimationIndices.size();
     }
@@ -195,19 +193,17 @@ void Entity::update(float deltaTime, Entity **collidableEntities,
         mVelocity.x = mVelocity.x / (1.0f + HORIZONTAL_DAMPING * deltaTime);
     }
 
+    // Apply vertical acceleration (gravity) to velocity
     mVelocity.y += mAcceleration.y * deltaTime;
 
     // ––––– JUMPING ––––– //
+    // Jump directly modifies velocity for immediate thrust
     if (mIsJumping)
     {
-        // STEP 1: Immediately return the flag to its original false state
         mIsJumping = false;
-        
-        // STEP 2: The player now acquires an upward velocity
         mVelocity.y -= mJumpingPower;
     }
 
-    // Update platform movement if this is a platform
     if (mEntityType == PLATFORM || mEntityType == ENEMY) {
         updatePlatformMovement();
     }
@@ -272,5 +268,5 @@ void Entity::render()
         mAngle, WHITE
     );
 
-    //displayCollider();
+    displayCollider();
 }

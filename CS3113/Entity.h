@@ -16,7 +16,7 @@ private:
     Vector2 mVelocity;
     Vector2 mAcceleration;
     
-    // Platform specific variables
+    // Platform and Hawk Enemy specific variables
     float mPlatformSpeed = 2.0f; 
     bool mMovingRight = true;   
 
@@ -118,7 +118,7 @@ public:
     bool        isJumping()                const { return mIsJumping;             }
     int         getSpeed()                 const { return mSpeed;                 }
     float       getAngle()                 const { return mAngle;                 }
-    int         get_fuel_level()             const {return fuel_level;}
+    int         get_fuel_level()           const { return fuel_level;             }
     
     
     bool isCollidingTop()    const { return mIsCollidingTop;    }
@@ -163,9 +163,6 @@ public:
     }
     void right_movement(){
         if (fuel_level > 0) mAcceleration.x = 10; 
-    }
-    void no_movement(){
-       mVelocity = {0,mVelocity.y}; 
     }
     
     // Platform and Enemy movement methods
