@@ -33,6 +33,7 @@ enum GameState {
 // Global Variables
 AppStatus gAppStatus = RUNNING;
 float gAngle = 0.0f, gPreviousTicks = 0.0f;
+float gDeltaTime = 0.0f;
 float gFuelAccumulator = 0.0f;
 GameState gameState = PLAYING;
 
@@ -163,7 +164,7 @@ void processInput() {
       }
 
       if (moving) {
-        gFuelAccumulator += GetFrameTime();
+        gFuelAccumulator += gDeltaTime;
         if (gFuelAccumulator >= 0.2f) {
           bird_entity->edit_fuel_level();
           gFuelAccumulator = 0.0f;
@@ -181,6 +182,7 @@ void update() {
   float ticks =(float)GetTime();
   float deltaTime =ticks - gPreviousTicks;
   gPreviousTicks = ticks;
+  gDeltaTime = deltaTime;
   
   // Only update movement if game is still playing
   if (gameState == PLAYING) {
