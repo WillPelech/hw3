@@ -289,9 +289,8 @@ void render() {
 
   if (bird_entity) {
     char fuelText[32];
-    snprintf(fuelText, sizeof(fuelText), "Fuel: %d", bird_entity->get_fuel_level());
-    int fuelTextWidth = MeasureText(fuelText, 20);
-    DrawText(fuelText, SCREEN_WIDTH - fuelTextWidth - 10, 10, 20, BLACK);
+    //snprintf(fuelText, sizeof(fuelText), "Fuel: %d", bird_entity->get_fuel_level());
+    DrawText(fuelText, SCREEN_WIDTH - 100, 10, 20, BLACK);
   }
 
   const char* message = "";
@@ -305,8 +304,7 @@ void render() {
   }
   
   if (gameState != PLAYING) {
-    int textWidth = MeasureText(message, 40);
-    DrawText(message, SCREEN_WIDTH/2 - textWidth/2, SCREEN_HEIGHT/2 - 20, 40, messageColor);
+    DrawText(message, SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 20, 40, messageColor);
   }
 
   EndDrawing();
