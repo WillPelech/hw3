@@ -178,7 +178,9 @@ void processInput() {
 }
 
 void update() {
-  float deltaTime = GetFrameTime();
+  float ticks =(float)GetTime();
+  float deltaTime =ticks - gPreviousTicks;
+  gPreviousTicks = ticks;
   
   // Only update movement if game is still playing
   if (gameState == PLAYING) {
