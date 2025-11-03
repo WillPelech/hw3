@@ -289,7 +289,7 @@ void render() {
 
   if (bird_entity) {
     char fuelText[32];
-    //snprintf(fuelText, sizeof(fuelText), "Fuel: %d", bird_entity->get_fuel_level());
+    snprintf(fuelText, sizeof(fuelText), "Fuel: %d", bird_entity->get_fuel_level());//limits how many bytes go into buffer(https://www.geeksforgeeks.org/c/snprintf-c-library/) j bc we are using 32 array 
     DrawText(fuelText, SCREEN_WIDTH - 100, 10, 20, BLACK);
   }
 
