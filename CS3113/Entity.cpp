@@ -54,7 +54,7 @@ void Entity::checkCollisionY(Entity **collidableEntities, int collisionCheckCoun
         
         if (isColliding(collidableEntity))
         {
-                        float yDistance = fabs(mPosition.y - collidableEntity->mPosition.y);
+            float yDistance = fabs(mPosition.y - collidableEntity->mPosition.y);
             float yOverlap  = fabs(yDistance - (mColliderDimensions.y / 2.0f) - 
                               (collidableEntity->mColliderDimensions.y / 2.0f));
             
@@ -196,8 +196,6 @@ void Entity::update(float deltaTime, Entity **collidableEntities,
     // Apply vertical acceleration (gravity) to velocity
     mVelocity.y += mAcceleration.y * deltaTime;
 
-    // ––––– JUMPING ––––– //
-    // Jump directly modifies velocity for immediate thrust
     if (mIsJumping)
     {
         mIsJumping = false;
